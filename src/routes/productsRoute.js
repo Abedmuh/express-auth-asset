@@ -2,14 +2,12 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const Product = require('../models/product');
+const ClientError = require('../exception/ClientError')
 
-// Rute GET untuk mengembalikan seluruh produk dari koleksi "product"
 router.get('/products', async (req, res) => {
   try {
-    // Mengambil seluruh data dari koleksi "product"
     const products = await Product.find();
 
-    // Memberikan respons ke klien dengan data produk
     res.status(200).json(products);
   } catch (error) {
     console.error('Gagal mengambil data produk:', error.message);
@@ -19,21 +17,17 @@ router.get('/products', async (req, res) => {
 
 router.post('/products', async (req, res) => {
   try {
-    // Mendapatkan data dari body permintaan
     const { name, price, status } = req.body;
 
-    // Membuat instance model Product
     const product = new Product({
       name,
       price,
       status,
     });
 
-    // Menyimpan data ke koleksi "product"
     await product.save();
     console.log('Data product berhasil disimpan');
 
-    // Memberikan respons ke klien
     res.status(201).json({ message: 'Data product berhasil ditambahkan' });
   } catch (error) {
     console.error('Gagal menambahkan data product:', error.message);
@@ -84,6 +78,12 @@ router.delete('/products/:id', async (req, res) => {
       res.status(404).json({ error: 'Produk tidak ditemukan' });
     }
   } catch (error) {
+    if (error instanceof ClientError) {
+      res.status(error.status).json({
+        status: 'fail',
+        message: error.message,
+      })
+    }
     console.error('Gagal menghapus data produk:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
@@ -122,7 +122,7 @@ router.put('/products/:id', async (req, res) => {
 
 
 
-router.use('/', (req, res) => {
+router.use('/product', (req, res) => {
   res.send('Try Another');
 })
 

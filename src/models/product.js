@@ -10,7 +10,8 @@ const productSchema = new mongoose.Schema({
     type: Number
   },
   status: {
-    type: Boolean
+    type: Boolean,
+    required: true,
   },
 });
 
