@@ -1,19 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 const User = require('../models/user');
 const Auth = require('../models/auth');
+const authService = require('../utils/token');
+
 
 router.post('/register', async (req, res, next) => {
   try {
     const { name, username, email, role, password } = req.body;
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+    
     const user = new User({
       name,
       username,
       email,
       role,
-      password,
+      password : hashedPassword,
     });
 
     await user.save();
@@ -38,12 +43,18 @@ router.post('/login', async (req, res) => {
     const accessToken = authService.generateAccessToken(user);
     const refreshToken = authService.generateRefreshToken(user);
 
-    // Simpan refreshToken ke database atau cache jika diperlukan
+    const authData = new Auth({ token: refreshToken });
+    await authData.save();
 
-    res.json({ accessToken, refreshToken });
+    res.status(201).json({ 
+      message: 'berhasil Login',
+      user,
+      accessToken, 
+      refreshToken
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: 'Internal Server Error',error });
   }
 });
 

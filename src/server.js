@@ -3,6 +3,7 @@ const app = express()
 const { connectToDatabase} = require('./utils/mongoose')
 const productsRoutes = require('./routes/productsRoute')
 const userRoutes = require('./routes/userRoute')
+require('dotenv').config();
 
 connectToDatabase();
 
