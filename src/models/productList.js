@@ -4,14 +4,14 @@ const mongoose = require('mongoose');
 const productListSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'user'
   },
   product: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Product'
+    ref: 'product'
   }
 });
 
-const ProductList = mongoose.model('product', productListSchema);
+const ProductList = mongoose.model('productList', productListSchema);
 
 module.exports = ProductList;

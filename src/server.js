@@ -2,10 +2,13 @@ const express = require('express')
 const app = express()
 const { connectToDatabase } = require('./utils/mongoose')
 require('dotenv').config();
-const userRoutes = require('./routes/userRoute')
-const productsRoutes = require('./routes/productsRoute')
 const bodyParser = require('body-parser');
 const cors = require('cors')
+
+// route
+const userRoutes = require('./routes/userRoute')
+const productsRoutes = require('./routes/productsRoute')
+const productListRoutes = require('./routes/productListRoute')
 
 const corsOption = {
   origin: "http://localhost:3000",
@@ -19,9 +22,9 @@ connectToDatabase();
 app.use(express.json())
 app.use('/product', productsRoutes)
 app.use('/user', userRoutes)
-// app.use('/productList', productListRoutes)
+app.use('/productList', productListRoutes)
 app.use('/', (res) => {
-  res.send('Try Another');
+  res.json({ message: "try another" });
 })
 
 app.listen(process.env.PORT || 3000, () => {

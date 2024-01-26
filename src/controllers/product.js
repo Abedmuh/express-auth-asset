@@ -3,38 +3,34 @@ const Product = require('../models/product')
 
 const addProduct = async (req, res) => {
   try {
-    const { name, price, status } = req.body;
+    const { name, price, status, id } = req.body;
 
     const product = new Product({
       name,
       price,
       status,
+      owner: id
     });
 
     await product.save();
-    console.log('Data product berhasil disimpan');
 
-    res.status(201).json({ message: 'Data product berhasil ditambahkan' });
+    res.status(201).json({
+      message: 'Data product berhasil ditambahkan',
+      product
+    });
   } catch (error) {
     console.error('Gagal menambahkan data product:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }
 
-const getProducts = async (req, res) => {
+const getProducts = async (res) => {
   try {
-    const { name, price, status } = req.body;
 
-    const product = new Product({
-      name,
-      price,
-      status,
-    });
+    const products = await Product.find();
 
-    await product.save();
-    console.log('Data product berhasil disimpan');
+    res.status(200).json(products);
 
-    res.status(201).json({ message: 'Data product berhasil ditambahkan' });
   } catch (error) {
     console.error('Gagal menambahkan data product:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -65,25 +61,25 @@ const getProductById = async (req, res) => {
 const deleteProduct = async (req, res) => {
   try {
     const productId = req.params.id;
+    const owner = req.body.id;
 
     if (!mongoose.Types.ObjectId.isValid(productId)) {
       return res.status(400).json({ error: 'ID produk tidak valid' });
     }
 
-    const deletedProduct = await Product.findByIdAndDelete(productId);
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).json({ error: 'Produk tidak ditemukan' });
+    }
+    if (product.owner != owner) {
+      return res.status(403).json({ error: 'Produk ini bukan milikmu' });
+    }
 
+    const deletedProduct = await Product.findByIdAndDelete(productId);
     if (deletedProduct) {
       res.status(200).json({ message: 'Produk berhasil dihapus', deletedProduct });
-    } else {
-      res.status(404).json({ error: 'Produk tidak ditemukan' });
     }
   } catch (error) {
-    if (error instanceof ClientError) {
-      res.status(error.status).json({
-        status: 'fail',
-        message: error.message,
-      })
-    }
     console.error('Gagal menghapus data produk:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
@@ -92,9 +88,18 @@ const deleteProduct = async (req, res) => {
 const updateProduct = async (req, res) => {
   try {
     const productId = req.params.id;
+    const owner = req.body.id;
 
     if (!mongoose.Types.ObjectId.isValid(productId)) {
       return res.status(400).json({ error: 'ID produk tidak valid' });
+    }
+    const product = await Product.findById(productId);
+
+    if (!product) {
+      res.status(404).json({ error: 'Produk tidak ditemukan' });
+    }
+    if (product.owner != owner) {
+      res.status(403).json({ error: 'Produk ini bukan milikmu' });
     }
 
     const updatedProduct = await Product.findByIdAndUpdate(
@@ -105,8 +110,6 @@ const updateProduct = async (req, res) => {
 
     if (updatedProduct) {
       res.status(200).json({ message: 'Produk berhasil diupdate', updatedProduct });
-    } else {
-      res.status(404).json({ error: 'Produk tidak ditemukan' });
     }
   } catch (error) {
     console.error('Gagal mengupdate data produk:', error.message);

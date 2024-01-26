@@ -1,5 +1,5 @@
 const User = require('../models/user')
-const mongoose = require('mongoose');
+const Roles = require('../models/roles')
 const bcrypt = require('bcrypt');
 const Auth = require('../models/auth');
 const authService = require('../utils/token')
@@ -40,8 +40,8 @@ const loginUser = async (req, res) => {
     const accessToken = authService.generateAccessToken(user);
     const refreshToken = authService.generateRefreshToken(user);
 
-    const authData = new Auth({ token: refreshToken });
-    await authData.save();
+    // const authData = new Auth({ token: refreshToken });
+    // await authData.save();
 
     res.status(201).json({
       message: 'berhasil Login',

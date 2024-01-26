@@ -16,13 +16,14 @@ const userSchema = new mongoose.Schema({
     unique: true,
   },
   role: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'roles',
     required: true,
   },
   password: {
     type: String,
-    min:3,
-    max:255,
+    min: 3,
+    max: 255,
     required: true,
   },
 })
