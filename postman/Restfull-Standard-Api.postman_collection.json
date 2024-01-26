@@ -1,0 +1,701 @@
+{
+	"info": {
+		"_postman_id": "78d80238-e302-4990-b0c8-f1c248046b6b",
+		"name": "Restfull-Standard-Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17345135"
+	},
+	"item": [
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Post Collection as Erste",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.environment.set(\"productIdErste\", jsonData.product._id);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "headerPrefix",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accesToken",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"erste asset\",\r\n    \"price\": 30,\r\n    \"status\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Collection by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{x-api-key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/product/65b3aa418b11e44d176b85d5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"product",
+								"65b3aa418b11e44d176b85d5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Collection",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{x-api-key}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:{{port}}/product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Collection",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{x-api-key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"kuroni\",\r\n    \"price\": 100,\r\n    \"status\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/products/65ad1f69c125454a97000d38",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"products",
+								"65ad1f69c125454a97000d38"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit Collection Copy",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-api-key",
+								"value": "{{x-api-key}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"kuroni\",\r\n    \"price\": 100,\r\n    \"status\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/products/65ad1f69c125454a97000d38",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"products",
+								"65ad1f69c125454a97000d38"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Collection",
+					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "headerPrefix",
+									"value": "",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{port}}/product/{{productIdErste}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"product",
+								"{{productIdErste}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Regist+Login",
+					"item": [
+						{
+							"name": "Regist User Admin",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\" : \"Admin\",\r\n    \"username\" : \"{{userAdmin}}\",\r\n    \"email\" : \"admin@gmail.com\",\r\n    \"role\" : \"admin\",\r\n    \"password\" : \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{port}}/user/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{port}}",
+									"path": [
+										"user",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Regist User Erste",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\" : \"Erste\",\r\n    \"username\" : \"{{userErste}}\",\r\n    \"email\" : \"erste@gmail.com\",\r\n    \"role\" : \"user\",\r\n    \"password\" : \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{port}}/user/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{port}}",
+									"path": [
+										"user",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Regist User Zweite",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\" : \"Zweite\",\r\n    \"username\" : \"{{userZweite}}\",\r\n    \"email\" : \"zweite@gmail.com\",\r\n    \"role\" : \"user\",\r\n    \"password\" : \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{port}}/user/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{port}}",
+									"path": [
+										"user",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Invalid Regist User",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\" : \"Zweite\",\r\n    \"username\" : \"invalid\",\r\n    \"email\" : \"invalid@gmail.com\",\r\n    \"role\" : \"invalid\",\r\n    \"password\" : \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{port}}/user/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{port}}",
+									"path": [
+										"user",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login (add token) Admin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = pm.response.json();\r",
+											"pm.environment.set(\"accessTokenAdmin\", jsonData.accessToken);\r",
+											"pm.environment.set(\"refreshTokenAdmin\", jsonData.refreshToken);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" : \"{{userAdmin}}\",\r\n    \"password\" : \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{port}}/user/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{port}}",
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login (add token) Erste",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = pm.response.json();\r",
+											"pm.environment.set(\"accessTokenErste\", jsonData.accessToken);\r",
+											"pm.environment.set(\"refreshTokenErste\", jsonData.refreshToken);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" : \"{{userErste}}\",\r\n    \"password\" : \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{port}}/user/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{port}}",
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login (add token) Zweite",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var jsonData = pm.response.json();\r",
+											"pm.environment.set(\"accessTokenZweite\", jsonData.accessToken);\r",
+											"pm.environment.set(\"refreshTokenZweite\", jsonData.refreshToken);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" : \"{{userZweite}}\",\r\n    \"password\" : \"{{password}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:{{port}}/user/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "{{port}}",
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Re-Login (refresh token) Admin",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Re-Login Erste",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Re-Login Zweite",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout (delete token) Admin",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout Erste",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout Zweite",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User (user+token) Admin",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/user/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User Erste",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/user/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User Zweite",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{port}}/user/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{port}}",
+							"path": [
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
