@@ -27,9 +27,13 @@ const addProduct = async (req, res) => {
 const getProducts = async (req, res) => {
   try {
 
+
     const products = await Product.find();
 
-    res.status(201).json({ products });
+    res.status(200).render('product/product', {
+      title: 'Product',
+      products: products
+    });
 
   } catch (error) {
     console.error('Gagal mendapatkan data product:', error.message);
@@ -116,7 +120,6 @@ const updateProduct = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }
-
 module.exports = {
   addProduct,
   getProducts,

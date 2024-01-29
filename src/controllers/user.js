@@ -17,10 +17,7 @@ const registerUser = async (req, res) => {
     });
 
     await user.save();
-    res.status(200).json({
-      message: 'User berhasil ditambahkan',
-      user
-    });
+    res.redirect('/user/login');
   } catch (err) {
     return res.status(500).json({
       message: err.message
@@ -69,8 +66,22 @@ const logoutUser = async (req, res) => {
   }
 }
 
+const loginViews = async (req, res) => {
+  res.render('user/login', {
+    title: 'Login'
+  });
+}
+
+const registerViews = async (req, res) => {
+  res.render('user/register', {
+    title: 'Register'
+  });
+}
+
 module.exports = {
   registerUser,
   loginUser,
-  logoutUser
+  logoutUser,
+  loginViews,
+  registerViews
 }
