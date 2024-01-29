@@ -24,15 +24,15 @@ const addProduct = async (req, res) => {
   }
 }
 
-const getProducts = async (res) => {
+const getProducts = async (req, res) => {
   try {
 
     const products = await Product.find();
 
-    res.status(200).json(products);
+    res.status(201).json({ products });
 
   } catch (error) {
-    console.error('Gagal menambahkan data product:', error.message);
+    console.error('Gagal mendapatkan data product:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 }

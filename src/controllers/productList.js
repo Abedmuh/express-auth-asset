@@ -16,8 +16,8 @@ const addProductList = async (req, res) => {
       newProductList
     });
   } catch (error) {
-    res.status(401).json({
-      message: "terjadi kesalaha"
+    res.status(500).json({
+      message: "internal server error"
     })
   }
 }
@@ -53,9 +53,9 @@ const getProductListById = async (req, res) => {
       res.status(404).json({ error: 'Produk tidak ditemukan' });
     }
 
-  } catch (error) {
+  } catch (err) {
     console.error('Gagal mengambil data produk:', error.message);
-    res.status(500).json({ message: "terjadi kesalahan" })
+    res.status(500).json({ message: err.message });
   }
 }
 

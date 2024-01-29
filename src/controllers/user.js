@@ -1,7 +1,5 @@
 const User = require('../models/user')
-const Roles = require('../models/roles')
 const bcrypt = require('bcrypt');
-const Auth = require('../models/auth');
 const authService = require('../utils/token')
 
 const registerUser = async (req, res) => {
@@ -19,12 +17,14 @@ const registerUser = async (req, res) => {
     });
 
     await user.save();
-    res.status(201).json({
+    res.status(200).json({
       message: 'User berhasil ditambahkan',
       user
     });
   } catch (err) {
-    return res.status(400).json({ error: err.message });
+    return res.status(500).json({
+      message: err.message
+    });
   }
 }
 
@@ -42,26 +42,30 @@ const loginUser = async (req, res) => {
 
     // const authData = new Auth({ token: refreshToken });
     // await authData.save();
+    res.cookie('jwtAToken', accessToken, { httpOnly: true, secure: true });
+    res.cookie('jwtRToken', refreshToken, { httpOnly: true, secure: true });
 
     res.status(201).json({
       message: 'berhasil Login',
-      user,
+      user: user.username,
+      name: user.name,
       accessToken,
       refreshToken
     });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal Server Error', error });
+  } catch (err) {
+    res.status(500).json({
+      data: err.message
+    });
   }
 }
 
 const logoutUser = async (req, res) => {
   try {
     console.error(error);
-    res.status(500).json({ message: 'Internal Server Error', error });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal Server Error', error });
+    res.status(500).json({ message: 'Internal Server Error', err });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Internal Server Error', err });
   }
 }
 

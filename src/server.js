@@ -1,9 +1,12 @@
+require('dotenv').config();
+
+//config
 const express = require('express')
 const app = express()
-const { connectToDatabase } = require('./utils/mongoose')
-require('dotenv').config();
+const connectToDatabase = require('./utils/mongoose')
 const bodyParser = require('body-parser');
 const cors = require('cors')
+const cookieParser = require('cookie-parser');
 
 // route
 const userRoutes = require('./routes/userRoute')
@@ -17,6 +20,7 @@ const corsOption = {
 
 app.use(cors(corsOption))
 app.use(bodyParser.json());
+app.use(cookieParser());
 connectToDatabase();
 
 app.use(express.json())
@@ -24,7 +28,9 @@ app.use('/product', productsRoutes)
 app.use('/user', userRoutes)
 app.use('/productList', productListRoutes)
 app.use('/', (res) => {
-  res.json({ message: "try another" });
+  res.status(500).json({
+    message: "try another"
+  });
 })
 
 app.listen(process.env.PORT || 3000, () => {
