@@ -12,6 +12,7 @@ const cookieParser = require('cookie-parser');
 const userRoutes = require('./routes/userRoute')
 const productsRoutes = require('./routes/productsRoute')
 const productListRoutes = require('./routes/productListRoute')
+const blogRoutes = require('./routes/blogRoute')
 
 const corsOption = {
   origin: "http://localhost:3000",
@@ -27,10 +28,9 @@ app.use(express.json())
 app.use('/product', productsRoutes)
 app.use('/user', userRoutes)
 app.use('/productList', productListRoutes)
-app.use('/', (res) => {
-  res.status(500).json({
-    message: "try another"
-  });
+app.use('/blog', blogRoutes)
+app.get('/', (req, res) => {
+  res.send('Hello World!')
 })
 
 app.listen(process.env.PORT || 3000, () => {

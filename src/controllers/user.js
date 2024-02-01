@@ -40,8 +40,8 @@ const loginUser = async (req, res) => {
     const accessToken = authService.generateAccessToken(user);
     const refreshToken = authService.generateRefreshToken(user);
 
-    // const authData = new Auth({ token: refreshToken });
-    // await authData.save();
+    const authData = new Auth({ token: refreshToken });
+    await authData.save();
     res.cookie('jwtAToken', accessToken, { httpOnly: true, secure: true });
     res.cookie('jwtRToken', refreshToken, { httpOnly: true, secure: true });
 
@@ -61,8 +61,15 @@ const loginUser = async (req, res) => {
 
 const logoutUser = async (req, res) => {
   try {
-    console.error(error);
-    res.status(500).json({ message: 'Internal Server Error', err });
+    const Rtoken = req.heeaders['refreshToken'];
+    const authData = await Auth.findOne({ token: Rtoken });
+
+    if (!authData) {
+      return res.status(401).json({ message: 'Invalid token' });
+    }
+    await authData.remove();
+
+    res.status(200).json({ message: 'Logout successful' });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Internal Server Error', err });
