@@ -5,8 +5,9 @@ const verifyuser = require('../middleware/verifyUser')
 
 router.post('/register', [verifyuser.checkDuplicateUsernameOrEmail], userController.registerUser)
 router.post('/login', userController.loginUser);
-router.get('/login', userController.loginViews);
-router.get('/register', userController.registerViews);
+
+
+router.post('/role', userController.addRole)
 
 
 router.use('/', (res) => {

@@ -11,7 +11,7 @@ const checkDuplicateUsernameOrEmail = async (req, res, next) => {
     let userRole = await Roles.findOne({ name: role });
 
     if (!userRole) {
-      userRole = await Roles.findOne({ name: 'user' });
+      userRole = await Roles.findOne({ name: 'Consumer' });
     }
     if (usernameExist) {
       return res.status(400).json({

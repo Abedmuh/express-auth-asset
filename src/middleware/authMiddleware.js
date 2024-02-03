@@ -2,21 +2,35 @@ const jwt = require('jsonwebtoken')
 
 const authUser = async (req, res, next) => {
   try {
-    const token = req.cookies.jwtAToken;
-    if (!token) {
-      return res.status(403).json({ message: "unauthorized" })
+    // const Atoken = req.cookies.jwtAToken;
+    // const Rtoken = req.cookies.jwtRtoken;
+    const Atoken = req.get('Authorization');
+    if (!Atoken) {
+      return res.status(403).json({
+        message: "unauthorized"
+      })
     }
 
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+
+    // jwt.verify(Rtoken, process.env.JWT_SECRET, (err) => {
+    //   if (err) {
+    //     return res.status(403).send({
+    //       message: "Pls relogin",
+    //     });
+    //   }
+    //   req.set('refreshToken', Rtoken)
+    // });
+
+    jwt.verify(Atoken, process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
         return res.status(403).send({
           message: "Unauthorized!",
+          error: err.message
         });
       }
-      req.body.id = decoded.id;
+      req.decoded = decoded;
       next();
     });
-
   } catch (error) {
     res.status(500).json(error)
   }
