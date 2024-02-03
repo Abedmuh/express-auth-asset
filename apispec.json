@@ -487,6 +487,9 @@
           },
           "status": {
             "type": "boolean"
+          },
+          "image": {
+            "type": "string"
           }
         }
       },
@@ -534,6 +537,24 @@
           "product_id": {
             "type": "string",
             "$ref": "#/components/schemas/Product"
+          }
+        }
+      },
+      "Blog": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "user_id": {
+            "type": "string",
+            "$ref": "#/components/schemas/User"
           }
         }
       }

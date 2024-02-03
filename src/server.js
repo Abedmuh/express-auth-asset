@@ -3,10 +3,10 @@ require('dotenv').config();
 //config
 const express = require('express')
 const app = express()
-const connectToDatabase = require('./utils/mongoose')
-const bodyParser = require('body-parser');
 const cors = require('cors')
+const connectToDatabase = require('./utils/mongoose')
 const cookieParser = require('cookie-parser');
+const path = require('path');
 
 // route
 const userRoutes = require('./routes/userRoute')
@@ -14,17 +14,19 @@ const productsRoutes = require('./routes/productsRoute')
 const productListRoutes = require('./routes/productListRoute')
 const blogRoutes = require('./routes/blogRoute')
 
+const uploadDir = path.join(__dirname, 'uploads');
 const corsOption = {
   origin: "http://localhost:3000",
   optionsSuccessStatus: 200
 }
 
 app.use(cors(corsOption))
-app.use(bodyParser.json());
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 connectToDatabase();
 
-app.use(express.json())
+app.use('/uploads', express.static(uploadDir));
 app.use('/product', productsRoutes)
 app.use('/user', userRoutes)
 app.use('/productList', productListRoutes)

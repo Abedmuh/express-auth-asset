@@ -3,13 +3,23 @@ const Product = require('../models/product')
 
 const addProduct = async (req, res) => {
   try {
-    const { name, price, status, id } = req.body;
+    const { name, price, status } = req.body;
+    // console.log(id)
+
+    let image = null;
+    if (req.file) {
+      image = {
+        filename: req.file.originalname,
+        contentType: req.file.mimetype
+      };
+    }
 
     const product = new Product({
       name,
       price,
       status,
-      owner: id
+      image,
+      owner: req.decoded.id
     });
 
     await product.save();
@@ -47,11 +57,12 @@ const getProductById = async (req, res) => {
 
     const product = await Product.findById(productId);
 
-    if (product) {
-      res.status(200).json(product);
-    } else {
-      res.status(404).json({ error: 'Produk tidak ditemukan' });
+    if (!product) {
+      return res.status(404).json({ error: 'Produk tidak ditemukan' });
     }
+
+    res.status(200).json(product);
+
   } catch (error) {
     console.error('Gagal mengambil data produk:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -61,7 +72,7 @@ const getProductById = async (req, res) => {
 const deleteProduct = async (req, res) => {
   try {
     const productId = req.params.id;
-    const owner = req.body.id;
+    const owner = req.decoded.id;
 
     if (!mongoose.Types.ObjectId.isValid(productId)) {
       return res.status(400).json({ error: 'ID produk tidak valid' });
@@ -96,10 +107,10 @@ const updateProduct = async (req, res) => {
     const product = await Product.findById(productId);
 
     if (!product) {
-      res.status(404).json({ error: 'Produk tidak ditemukan' });
+      return res.status(404).json({ error: 'Produk tidak ditemukan' });
     }
     if (product.owner != owner) {
-      res.status(403).json({ error: 'Produk ini bukan milikmu' });
+      return res.status(403).json({ error: 'Produk ini bukan milikmu' });
     }
 
     const updatedProduct = await Product.findByIdAndUpdate(
@@ -107,10 +118,7 @@ const updateProduct = async (req, res) => {
       req.body,
       { new: true, runValidators: true }
     );
-
-    if (updatedProduct) {
-      res.status(200).json({ message: 'Produk berhasil diupdate', updatedProduct });
-    }
+    res.status(200).json({ message: 'Produk berhasil diupdate', updatedProduct });
   } catch (error) {
     console.error('Gagal mengupdate data produk:', error.message);
     res.status(500).json({ error: 'Internal Server Error' });

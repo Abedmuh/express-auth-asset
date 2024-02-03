@@ -1,4 +1,6 @@
 const User = require('../models/user')
+const Role = require('../models/roles')
+const Auth = require('../models/auth')
 const bcrypt = require('bcrypt');
 const authService = require('../utils/token')
 
@@ -40,10 +42,11 @@ const loginUser = async (req, res) => {
     const accessToken = authService.generateAccessToken(user);
     const refreshToken = authService.generateRefreshToken(user);
 
-    const authData = new Auth({ token: refreshToken });
-    await authData.save();
-    res.cookie('jwtAToken', accessToken, { httpOnly: true, secure: true });
-    res.cookie('jwtRToken', refreshToken, { httpOnly: true, secure: true });
+    // const authData = new Auth({ token: refreshToken });
+    // await authData.save();
+
+    // res.cookie('jwtAToken', accessToken, { httpOnly: true, secure: true });
+    // res.cookie('jwtRToken', refreshToken, { httpOnly: true, secure: true });
 
     res.status(201).json({
       message: 'berhasil Login',
@@ -76,8 +79,28 @@ const logoutUser = async (req, res) => {
   }
 }
 
+const addRole = async (req, res) => {
+  try {
+    const { name } = req.body
+
+    const roleData = new Role({
+      name
+    })
+
+    await roleData.save()
+
+    res.status(201).json({
+      message: 'Role berhasil ditambahkan',
+      roleData
+    })
+  } catch (err) {
+    res.status(500).json({ message: 'Internal Server Error', error: err.message });
+  }
+}
+
 module.exports = {
   registerUser,
   loginUser,
-  logoutUser
+  logoutUser,
+  addRole
 }

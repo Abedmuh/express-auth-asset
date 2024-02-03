@@ -14,6 +14,10 @@ const productSchema = new mongoose.Schema({
     type: Boolean,
     required: true,
   },
+  image: {
+    filename: String,
+    contentType: String
+  },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user',
