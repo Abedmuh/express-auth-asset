@@ -4,9 +4,10 @@ require('dotenv').config();
 const express = require('express')
 const app = express()
 const cors = require('cors')
-const connectToDatabase = require('./utils/mongoose')
 const cookieParser = require('cookie-parser');
 const path = require('path');
+const connectToDatabase = require('./utils/mongoose')
+const errorHandler = require('./utils/error')
 
 // route
 const userRoutes = require('./routes/userRoute')
@@ -16,8 +17,10 @@ const blogRoutes = require('./routes/blogRoute')
 
 const uploadDir = path.join(__dirname, 'uploads');
 const corsOption = {
-  origin: "http://localhost:3000",
-  optionsSuccessStatus: 200
+  origin: 'http://localhost:5173',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204,
 }
 
 app.use(express.urlencoded({ extended: true }));
@@ -25,9 +28,6 @@ app.use(express.json())
 app.use(cors(corsOption))
 app.use(cookieParser());
 connectToDatabase();
-app.use(express.static(path.join(__dirname, 'public')));
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
 
 app.use('/uploads', express.static(uploadDir));
 app.use('/product', productsRoutes)
@@ -37,6 +37,8 @@ app.use('/blog', blogRoutes)
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
+
+app.on('error', errorHandler)
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(`Example app listening on port localhost:3000`)
