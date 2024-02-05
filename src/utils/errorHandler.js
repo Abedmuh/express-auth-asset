@@ -19,7 +19,7 @@ const handleErrors = (err, req, res, next) => {
     return res.status(statusCode).json({
       status: 'error',
       message: 'Terjadi kesalahan kustom',
-      details: err.details,  // Informasi tambahan untuk kesalahan kustom
+      details: err.details,
     });
   }
 
