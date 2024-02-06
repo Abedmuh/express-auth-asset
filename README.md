@@ -42,6 +42,7 @@ as buyer u only can buy and add whishlist
 - cookie-parser = read cookie
 - body-parser = parsing-body
 - nodemon = tools for dev, easy to npm run
+- faker = generate data
 
 # list of unsolved problem
 

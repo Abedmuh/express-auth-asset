@@ -14,6 +14,7 @@ const userRoutes = require('./routes/userRoute')
 const productsRoutes = require('./routes/productsRoute')
 const productListRoutes = require('./routes/productListRoute')
 const blogRoutes = require('./routes/blogRoute')
+const generateRoute = require('./routes/superRoute/seederRoute')
 
 const uploadDir = path.join(__dirname, 'uploads');
 const corsOption = {
@@ -34,6 +35,7 @@ app.use('/product', productsRoutes)
 app.use('/user', userRoutes)
 app.use('/productList', productListRoutes)
 app.use('/blog', blogRoutes)
+app.use('/generate-dummy', generateDummyRoutes)
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
