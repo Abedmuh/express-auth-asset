@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./src/server.js"
+    "start": "nodemon ./src/server.js",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -15,12 +16,14 @@
     "cors": "^2.8.5",
     "dotenv": "^16.3.2",
     "express": "^4.18.2",
-    "faker": "^6.6.6",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.1.0",
     "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
-    "nodemon": "^3.0.3"
+    "faker": "^6.6.6",
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.3",
+    "supertest": "^6.3.4"
   }
 }

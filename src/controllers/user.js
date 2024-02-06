@@ -1,5 +1,6 @@
 const User = require('../models/user')
 const Role = require('../models/roles')
+const userService = require('../services/user')
 const Auth = require('../models/auth')
 const bcrypt = require('bcrypt');
 const authService = require('../utils/token')
@@ -79,18 +80,34 @@ const logoutUser = async (req, res) => {
   }
 }
 
-const addRole = async (req, res) => {
+const postRole = async (req, res) => {
   try {
     const { name } = req.body
 
-    const roleData = new Role({
-      name
-    })
-
-    await roleData.save()
+    const roleData = await userService.addRole(name);
 
     res.status(201).json({
       message: 'Role berhasil ditambahkan',
+      roleData
+    })
+  } catch (err) {
+    res.status(500).json({
+      message: 'Internal Server Error',
+      error: err.message
+    });
+  }
+}
+
+const deleteRole = async (req, res) => {
+  try {
+    const { id } = req.params
+
+    const roleData = await Role.findByIdAndDelete(id)
+    if (!roleData) {
+      return res.status(404).json({ error: 'Role tidak ditemukan' })
+    }
+    res.status(201).json({
+      message: 'Role berhasil dihapus',
       roleData
     })
   } catch (err) {
@@ -102,5 +119,6 @@ module.exports = {
   registerUser,
   loginUser,
   logoutUser,
-  addRole
+  postRole,
+  deleteRole
 }

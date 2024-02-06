@@ -1,4 +1,4 @@
-### Express Auth Asset
+# Express Auth Asset
 
 Express auth asset was made for complete path of backend developer. here the method was used on this project
 
@@ -15,7 +15,7 @@ Express auth asset was made for complete path of backend developer. here the met
 
 *+ was microservice add ons
 
-## what this app doing?
+# what this app doing?
 
 SO the app just shop website can buy and sell, u have seller and buyer.
 as admin u can do any and has responsibility create dev blogs
@@ -44,7 +44,7 @@ as buyer u only can buy and add whishlist
 - nodemon = tools for dev, easy to npm run
 - faker = generate data
 
-# list of unsolved problem
+### list of unsolved problem
 
 - MultiRole Feature
 as its name, in this project implanning every user has tier role. some user can access
@@ -53,8 +53,16 @@ feature and some user cant access feature
 create dummy data
 - Advance Error Handling
 
-# list of unsolved feature
+### list of unsolved feature
 
 - Unit Test
 - Caching
 - Message Broker
+
+### problem i face rn
+
+3rd party request
+
+- export file as csv, excel, image,any
+- seedeing dastabase
+- analitycs
