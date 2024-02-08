@@ -1,29 +1,17 @@
-const User = require('../models/user')
-const Role = require('../models/roles')
 const userService = require('../services/user')
-const Auth = require('../models/auth')
-const bcrypt = require('bcrypt');
 const authService = require('../utils/token')
 
 const registerUser = async (req, res) => {
   try {
     const { name, username, email, role, password } = req.body;
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = await userService.addUser({ name, username, email, role, password })
 
-    const user = new User({
-      name,
-      username,
-      email,
-      role,
-      password: hashedPassword,
-    });
-
-    await user.save();
     res.status(200).json({
       message: 'User berhasil ditambahkan',
       user
     });
+
   } catch (err) {
     return res.status(500).json({
       message: err.message
@@ -34,11 +22,8 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { username, password } = req.body;
-    const user = await User.findOne({ username });
 
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-      return res.status(401).json({ message: 'Invalid username or password' });
-    }
+    const verifyUser = await userService.verifyUser({ username, password })
 
     const accessToken = authService.generateAccessToken(user);
     const refreshToken = authService.generateRefreshToken(user);
@@ -51,8 +36,8 @@ const loginUser = async (req, res) => {
 
     res.status(201).json({
       message: 'berhasil Login',
-      user: user.username,
-      name: user.name,
+      user: verifyUser.username,
+      name: verifyUser.name,
       accessToken,
       refreshToken
     });
@@ -66,12 +51,8 @@ const loginUser = async (req, res) => {
 const logoutUser = async (req, res) => {
   try {
     const Rtoken = req.heeaders['refreshToken'];
-    const authData = await Auth.findOne({ token: Rtoken });
 
-    if (!authData) {
-      return res.status(401).json({ message: 'Invalid token' });
-    }
-    await authData.remove();
+    await userService.deleteTokenUser(Rtoken)
 
     res.status(200).json({ message: 'Logout successful' });
   } catch (err) {
@@ -102,13 +83,10 @@ const deleteRole = async (req, res) => {
   try {
     const { id } = req.params
 
-    const roleData = await Role.findByIdAndDelete(id)
-    if (!roleData) {
-      return res.status(404).json({ error: 'Role tidak ditemukan' })
-    }
+    await userService.deleteRole(id)
+
     res.status(201).json({
-      message: 'Role berhasil dihapus',
-      roleData
+      message: 'Role berhasil dihapus'
     })
   } catch (err) {
     res.status(500).json({ message: 'Internal Server Error', error: err.message });
