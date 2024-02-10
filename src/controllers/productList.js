@@ -1,19 +1,16 @@
 const mongoose = require('mongoose');
 const ProductList = require('../models/productList')
+const productListService = require('../services/productList')
 
-const addProductList = async (req, res) => {
+const postProductList = async (req, res) => {
   try {
     const { productId, id } = req.body;
 
-    const newProductList = new ProductList({
-      productId,
-      id
-    })
-    await newProductList.save()
+    const product = productListService.addProductList({ productId, id })
 
     res.status(201).json({
       message: 'Data produk berhasil ditambahkan',
-      newProductList
+      product
     });
   } catch (error) {
     res.status(500).json({
@@ -25,9 +22,10 @@ const addProductList = async (req, res) => {
 const getProductList = async (res) => {
   try {
     const owners = req.body.id;
-    const productLists = await ProductList.find({ user: owners });
-    res.status(200).json(productLists);
 
+    const productLists = await ProductList.find({ user: owners });
+
+    res.status(200).json(productLists);
   } catch (error) {
     res.status(500).json({ message: "internal server error" });
   }
@@ -64,9 +62,9 @@ const deleteProductList = async (req, res, next) => {
     const productListId = req.params.productListId
     const owner = req.body.id
 
-    if (!mongoose.Types.ObjectId.isValid(productId)) {
-      return res.status(400).json({ error: 'ID produk tidak valid' });
-    }
+    // if (!mongoose.Types.ObjectId.isValid(productId)) {
+    //   return res.status(400).json({ error: 'ID produk tidak valid' });
+    // }
 
     const product = await ProductList.findById(productListId);
     if (!product) {
@@ -81,7 +79,7 @@ const deleteProductList = async (req, res, next) => {
 }
 
 module.exports = {
-  addProductList,
+  postProductList,
   getProductList,
   getProductListById,
   deleteProductList

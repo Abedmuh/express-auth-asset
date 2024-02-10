@@ -8,7 +8,7 @@ router.post('/register', [verifyuser.checkDuplicateUsernameOrEmail], userControl
 router.post('/login', userController.loginUser)
 router.post('/logout', userController.logoutUser)
 // role
-router.post('/role', userController.addRole)
+router.post('/role', userController.postRole)
 router.delete('/role/:id', userController.deleteRole)
 
 

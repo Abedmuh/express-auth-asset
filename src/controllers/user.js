@@ -23,7 +23,7 @@ const loginUser = async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    const verifyUser = await userService.verifyUser({ username, password })
+    const user = await userService.verifyUser({ username, password })
 
     const accessToken = authService.generateAccessToken(user);
     const refreshToken = authService.generateRefreshToken(user);
@@ -36,8 +36,8 @@ const loginUser = async (req, res) => {
 
     res.status(201).json({
       message: 'berhasil Login',
-      user: verifyUser.username,
-      name: verifyUser.name,
+      user: user.username,
+      name: user.name,
       accessToken,
       refreshToken
     });

@@ -7,14 +7,12 @@ const cors = require('cors')
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const connectToDatabase = require('./utils/mongoose')
-const errorHandler = require('./utils/error')
 
 // route
 const userRoutes = require('./routes/userRoute')
 const productsRoutes = require('./routes/productsRoute')
 const productListRoutes = require('./routes/productListRoute')
 const blogRoutes = require('./routes/blogRoute')
-const generateRoute = require('./routes/superRoute/seederRoute')
 
 const uploadDir = path.join(__dirname, 'uploads');
 const corsOption = {
@@ -35,7 +33,6 @@ app.use('/product', productsRoutes)
 app.use('/user', userRoutes)
 app.use('/productList', productListRoutes)
 app.use('/blog', blogRoutes)
-app.use('/generate-dummy', generateDummyRoutes)
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })

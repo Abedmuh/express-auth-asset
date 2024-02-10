@@ -3,7 +3,7 @@ const router = express.Router();
 const auth = require('../middleware/authMiddleware')
 const productList = require('../controllers/productList')
 
-router.post('/:productId', [auth.authUser], productList.addProductList)
+router.post('/:productId', [auth.authUser], productList.postProductList)
 router.get('/', [auth.authUser], productList.getProductList)
 router.get('/:productListId', [auth.authUser], productList.getProductListById)
 router.delete('/:productListId', [auth.authUser], productList.deleteProductList)

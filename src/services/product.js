@@ -1,18 +1,19 @@
 const InvariantError = require('../exceptions/InvariantError')
 const AuthorizationError = require('../exceptions/AuthorizationError')
 const NotFoundError = require('../exceptions/NotFoundError')
+const Product = require('../models/product')
 
-const addProduct = async (name, price, status) => {
+const addProduct = async (name, price, status, image, owner) => {
 
-  const product = new Product(
+  const product = new Product({
     name,
     price,
     status,
     image,
     owner
-  )
+  })
 
-  const savedProduct = product.save()
+  const savedProduct = await product.save()
 
   if (!savedProduct) {
     throw new InvariantError('Products fail to be saved')
@@ -21,13 +22,9 @@ const addProduct = async (name, price, status) => {
   return savedProduct
 }
 
-const getProduct = async () => {
-  return Product.find()
-}
-
 const getProductById = async (id) => {
 
-  const product = Product.findById(id)
+  const product = await Product.findById(id).exec()
 
   if (!product) {
     throw new NotFoundError('Product not found')
@@ -35,14 +32,27 @@ const getProductById = async (id) => {
   return product
 }
 
-const deleteProduct = async (id) => {
+const deleteProduct = async (productId) => {
 
-  const product = Product.findByIdAndDelete(id)
+  const product = await Product.findByIdAndDelete(productId)
 
   if (!product) {
-    throw new NotFoundError('Product not found')
+    throw new InvariantError('Fail to delete the product')
   }
   return product
+}
+
+const updateProduct = async (productId, updateData) => {
+  const updatedProduct = await Product.findByIdAndUpdate(
+    productId,
+    updateData,
+    { new: true, runValidators: true }
+  );
+
+  if (!updatedProduct) {
+    throw new InvariantError('Product failed to update')
+  }
+  return updatedProduct;
 }
 
 const verifyProductAccess = async (owner, productId) => {
@@ -63,8 +73,8 @@ const verifyProductAccess = async (owner, productId) => {
 
 module.exports = {
   addProduct,
-  getProduct,
   getProductById,
   deleteProduct,
+  updateProduct,
   verifyProductAccess
 }
