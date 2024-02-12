@@ -1,8 +1,9 @@
 const userService = require('../services/user')
-const authService = require('../utils/token')
+const authService = require('../utils/token');
 
-const registerUser = async (req, res) => {
+const registerUser = async (req, res, next) => {
   try {
+
     const { name, username, email, role, password } = req.body;
 
     const user = await userService.addUser({ name, username, email, role, password })
@@ -12,14 +13,12 @@ const registerUser = async (req, res) => {
       user
     });
 
-  } catch (err) {
-    return res.status(500).json({
-      message: err.message
-    });
+  } catch (error) {
+    next(error)
   }
 }
 
-const loginUser = async (req, res) => {
+const loginUser = async (req, res, next) => {
   try {
     const { username, password } = req.body;
 
@@ -28,9 +27,10 @@ const loginUser = async (req, res) => {
     const accessToken = authService.generateAccessToken(user);
     const refreshToken = authService.generateRefreshToken(user);
 
-    // const authData = new Auth({ token: refreshToken });
-    // await authData.save();
+    const authData = new Auth({ token: refreshToken });
+    await authData.save();
 
+    // in this case the front end will keep the refresh token
     // res.cookie('jwtAToken', accessToken, { httpOnly: true, secure: true });
     // res.cookie('jwtRToken', refreshToken, { httpOnly: true, secure: true });
 
@@ -41,27 +41,24 @@ const loginUser = async (req, res) => {
       accessToken,
       refreshToken
     });
-  } catch (err) {
-    res.status(500).json({
-      data: err.message
-    });
+  } catch (error) {
+    next(error)
   }
 }
 
-const logoutUser = async (req, res) => {
+const logoutUser = async (req, res, next) => {
   try {
     const Rtoken = req.heeaders['refreshToken'];
 
     await userService.deleteTokenUser(Rtoken)
 
     res.status(200).json({ message: 'Logout successful' });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Internal Server Error', err });
+  } catch (error) {
+    next(error)
   }
 }
 
-const postRole = async (req, res) => {
+const postRole = async (req, res, next) => {
   try {
     const { name } = req.body
 
@@ -71,15 +68,12 @@ const postRole = async (req, res) => {
       message: 'Role berhasil ditambahkan',
       roleData
     })
-  } catch (err) {
-    res.status(500).json({
-      message: 'Internal Server Error',
-      error: err.message
-    });
+  } catch (error) {
+    next(error)
   }
 }
 
-const deleteRole = async (req, res) => {
+const deleteRole = async (req, res, next) => {
   try {
     const { id } = req.params
 
@@ -88,8 +82,8 @@ const deleteRole = async (req, res) => {
     res.status(201).json({
       message: 'Role berhasil dihapus'
     })
-  } catch (err) {
-    res.status(500).json({ message: 'Internal Server Error', error: err.message });
+  } catch (error) {
+    next(error)
   }
 }
 

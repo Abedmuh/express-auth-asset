@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const ProductList = require('../models/productList')
 const productListService = require('../services/productList')
 
-const postProductList = async (req, res) => {
+const postProductList = async (req, res, next) => {
   try {
     const { productId, id } = req.body;
 
@@ -13,13 +13,11 @@ const postProductList = async (req, res) => {
       product
     });
   } catch (error) {
-    res.status(500).json({
-      message: "internal server error"
-    })
+    next(error)
   }
 }
 
-const getProductList = async (res) => {
+const getProductList = async (res, next) => {
   try {
     const owners = req.body.id;
 
@@ -27,11 +25,11 @@ const getProductList = async (res) => {
 
     res.status(200).json(productLists);
   } catch (error) {
-    res.status(500).json({ message: "internal server error" });
+    next(error)
   }
 }
 
-const getProductListById = async (req, res) => {
+const getProductListById = async (req, res, next) => {
   try {
     const productListId = req.params.product;
     const owner = req.body.id
@@ -51,9 +49,8 @@ const getProductListById = async (req, res) => {
       res.status(404).json({ error: 'Produk tidak ditemukan' });
     }
 
-  } catch (err) {
-    console.error('Gagal mengambil data produk:', error.message);
-    res.status(500).json({ message: err.message });
+  } catch (error) {
+    next(error)
   }
 }
 
@@ -73,8 +70,8 @@ const deleteProductList = async (req, res, next) => {
     if (product.user != user) {
       return res.status(403).json({ error: 'Produk ini bukan milikmu' });
     }
-  } catch (e) {
-    return res.status(500).json({ error: 'Internal server error' });
+  } catch (error) {
+    next(error)
   }
 }
 

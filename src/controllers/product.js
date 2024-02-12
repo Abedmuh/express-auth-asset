@@ -1,7 +1,7 @@
 const productService = require('../services/product')
 const Product = require('../models/product')
 
-const addProduct = async (req, res) => {
+const addProduct = async (req, res, next) => {
   try {
     const { name, price, status } = req.body;
     const owner = req.decoded.id
@@ -9,8 +9,6 @@ const addProduct = async (req, res) => {
       filename: req.file.originalname,
       contentType: req.file.mimetype
     } : null;
-    console.log(owner);
-    console.log(req.decoded);
 
     const product = await productService.addProduct(name, price, status, image, owner)
 
@@ -19,12 +17,11 @@ const addProduct = async (req, res) => {
       product
     });
   } catch (error) {
-    console.error('Gagal menambahkan data product:', error.message);
-    res.status(500).json({ error: 'Internal Server Error' });
+    next(error)
   }
 }
 
-const getProducts = async (req, res) => {
+const getProducts = async (req, res, next) => {
   try {
     const products = await Product.find()
 
@@ -33,12 +30,11 @@ const getProducts = async (req, res) => {
     })
 
   } catch (error) {
-    console.error('Gagal mendapatkan data product:', error.message);
-    res.status(500).json({ error: 'Internal Server Error' });
+    next(error)
   }
 }
 
-const getProductById = async (req, res) => {
+const getProductById = async (req, res, next) => {
   try {
     const productId = req.params.id;
 
@@ -50,11 +46,11 @@ const getProductById = async (req, res) => {
 
     res.status(200).json(product);
   } catch (error) {
-    res.status(error.statusCode).json({ error: error.message });
+    next(error)
   }
 }
 
-const deleteProduct = async (req, res) => {
+const deleteProduct = async (req, res, next) => {
   try {
     const productId = req.params.id;
     const owner = req.decoded.id;
@@ -68,12 +64,11 @@ const deleteProduct = async (req, res) => {
     res.status(200).json({ message: 'Produk berhasil dihapus' });
 
   } catch (error) {
-    console.error('Gagal menghapus data produk:', error.message);
-    res.status(500).json({ error: 'Internal Server Error' });
+    next(error)
   }
 }
 
-const updateProduct = async (req, res) => {
+const updateProduct = async (req, res, next) => {
   try {
     const productId = req.params.id;
     const owner = req.decoded.id;
@@ -91,7 +86,7 @@ const updateProduct = async (req, res) => {
       updatedProduct
     });
   } catch (error) {
-    res.status(error.statusCode).json({ error: error.message });
+    next(error)
   }
 }
 module.exports = {

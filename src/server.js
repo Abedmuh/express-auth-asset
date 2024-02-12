@@ -14,6 +14,8 @@ const productsRoutes = require('./routes/productsRoute')
 const productListRoutes = require('./routes/productListRoute')
 const blogRoutes = require('./routes/blogRoute')
 
+const errorHandler = require('./middleware/error')
+
 const uploadDir = path.join(__dirname, 'uploads');
 const corsOption = {
   origin: 'http://localhost:5173',
@@ -36,6 +38,8 @@ app.use('/blog', blogRoutes)
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })
+
+app.use(errorHandler)
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(`Example app listening on port localhost:3000`)
