@@ -1,8 +1,10 @@
 const userService = require('../services/user')
 const authService = require('../utils/token');
+const { validationResultRole, validationResultUser } = require('../validation/user/validate');
 
 const registerUser = async (req, res, next) => {
   try {
+    await validationResultUser(req.body)
 
     const { name, username, email, role, password } = req.body;
 
@@ -60,6 +62,8 @@ const logoutUser = async (req, res, next) => {
 
 const postRole = async (req, res, next) => {
   try {
+    await validationResultRole(req.body)
+
     const { name } = req.body
 
     const roleData = await userService.addRole(name);

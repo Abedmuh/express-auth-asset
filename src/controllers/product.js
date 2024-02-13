@@ -1,8 +1,10 @@
 const productService = require('../services/product')
-const Product = require('../models/product')
+const Product = require('../models/product');
+const { validationResultProduct } = require('../validation/product/validate');
 
 const addProduct = async (req, res, next) => {
   try {
+    await validationResultProduct(req.body)
     const { name, price, status } = req.body;
     const owner = req.decoded.id
     const image = req.file ? {
