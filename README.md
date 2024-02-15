@@ -44,18 +44,16 @@ as buyer u only can buy and add whishlist
 - nodemon = tools for dev, easy to npm run
 - faker = generate data
 
-### list of unsolved problem
+# list of unsolved problem
 
 - MultiRole Feature
 as its name, in this project implanning every user has tier role. some user can access
 feature and some user cant access feature
 - Data seeder
 create dummy data
-- Advance Error Handling
 
 ### list of unsolved feature
 
-- Unit Test
 - Caching
 - Message Broker
 
@@ -66,3 +64,5 @@ create dummy data
 - export file as csv, excel, image,any
 - seedeing dastabase
 - analitycs
+- the data i use for add product list should i read the body or params or cookie
+rn im using cookie and params

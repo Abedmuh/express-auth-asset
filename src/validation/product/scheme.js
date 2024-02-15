@@ -10,4 +10,4 @@ const productValidateSchema = Joi.object({
   }), // Jika ID pemilik disimpan sebagai string, bisa juga menggunakan Joi.objectId()
 });
 
-module.exports = productValidateSchema;
+module.exports = { productValidateSchema };

@@ -1,10 +1,10 @@
 const Joi = require('joi');
-
+// joi role harusny mongodb object
 const userValidateSchema = Joi.object({
   name: Joi.string().required(),
   username: Joi.string().required(),
   email: Joi.string().email().required(),
-  role: Joi.string(), // Ini dapat disesuaikan tergantung pada bagaimana ID peran disimpan
+  role: Joi.required(),
   password: Joi.string().min(3).max(255).required(),
 });
 

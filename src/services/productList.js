@@ -4,11 +4,12 @@ const NotFoundError = require('../exceptions/NotFoundError')
 const ProductList = require('../models/productList')
 
 const addProductList = async ({ productId, id }) => {
-  const product = new ProductList({
-    productId,
-    id
+  const productList = new ProductList({
+    user: id,
+    product: productId
   })
-  const savedList = await product.save()
+
+  const savedList = await productList.save()
 
   if (!savedList) {
     throw new InvariantError('Product list fail to be saved')
@@ -16,17 +17,9 @@ const addProductList = async ({ productId, id }) => {
 
   return savedList
 }
-// find where owner = id
-const getOwnerProductList = async (id) => {
-  const list = await ProductList.find()
-  return list
-}
 
-const getProductListById = async (id) => {
-  const list = await ProductList.findById(id)
-  if (!list) {
-    throw new NotFoundError('Product List not found')
-  }
+const getOwnerProductList = async (id) => {
+  const list = await ProductList.find({ user: id })
   return list
 }
 
@@ -36,7 +29,7 @@ const deleteProductList = async (id) => {
 
 const verifyProductListAccess = async (user, listId) => {
   try {
-    const product = await getProductListById(listId)
+    const product = await ProductList.findById(listId)
     if (!product) {
       throw new NotFoundError('Product not found')
     }
@@ -51,7 +44,6 @@ const verifyProductListAccess = async (user, listId) => {
 module.exports = {
   addProductList,
   getOwnerProductList,
-  getProductListById,
   deleteProductList,
   verifyProductListAccess
 }

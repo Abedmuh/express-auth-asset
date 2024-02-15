@@ -27,7 +27,7 @@ const getProducts = async (req, res, next) => {
   try {
     const products = await Product.find()
 
-    res.status(200).json({
+    res.status(201).json({
       data: products
     })
 
@@ -46,7 +46,7 @@ const getProductById = async (req, res, next) => {
 
     const product = await productService.getProductById(productId)
 
-    res.status(200).json(product);
+    res.status(201).json(product);
   } catch (error) {
     next(error)
   }
