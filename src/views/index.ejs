@@ -1,0 +1,104 @@
+<!-- views/index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <header>
+      <nav>
+        <ul>
+          <li>Listed</li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section id="about">
+        <h1><%= title %></h1>
+    <p>Selamat datang di <%= title %></p>
+        <h2>About</h2>
+        <p>
+          Express auth asset was made for complete path of backend developer. 
+          here the method was used on this project
+        </p>
+        <ul>
+          <li>MVC (Model-View-Controller)</li>
+          <li>Auth</li>
+          <li>CRUD database</li>
+          <li>Postman</li>
+          <li>3rd Party modules</li>
+          <li>Middleware</li>
+          <li>Unit test</li>
+          <li>+Chacing</li>
+          <li>+Message Broker</li>
+          <li>+Containerization</li>
+        </ul>
+        <p>*+ was microservice add ons</p>
+      </section>
+
+      <section id="usage">
+        <h2>Usage</h2>
+        <p>SO the app just shop website can buy and sell, u have seller and buyer.
+          as admin u can do any and has responsibility create dev blogs
+          as super user u can see dashboard and get analitycs what was trending on this app (this one will be hard)
+          as seller u can sell some product and get all access same as user.
+          as buyer u only can buy and add whishlist</p>
+      </section>
+
+      <section id="structure-folder">
+        <h2>Folder Structure</h2>
+        <div class="code">this structure folder</div>
+      </section>
+
+      <section id="plugin">
+        <h2>Plugin Description</h2>
+        <p>Here the list of plugin that im using for develops this apps</p>
+        <ul>
+          <li>bycrypt = hash password</li>
+          <li>cors = middleware to limit access who can access this app(what we url this app serve)</li>
+          <li>dotenv = connect to file .env access private variable</li>
+          <li>nanoid = generate id</li>
+          <li>multer = uploads file</li>
+          <li>mongoose = connect to database</li>
+          <li>express = main framework</li>
+          <li>jsonwebtoken = auth method using Oath2.0</li>
+          <li>cookie-parser = read cookie</li>
+          <li>body-parser = parsing-body</li>
+          <li>nodemon = tools for dev, easy to npm run</li>
+        </ul>
+      </section>
+
+      <section id="unsolved-problem">
+        <h2>List of unsolved problem</h2>
+        <p>Here the list of unsolved problem, no idea to solve</p>
+        <ul>
+          <li>
+            <p>Multi Role Problem</p>
+            <p>The idea of multirole problem comes from discrod where u can add role and each of role has access
+              to the feature they wants. its not like tier ranking role its just every role has their own responsibility 
+            </p>
+            <p>the only i can think was every role and feature has realational database</p>
+          </li>
+          <li>
+            <p>Data Seeder</p>
+            <p>Create Dummy data for this app</p>
+          </li>
+        </ul>
+      </section>
+
+      <section id="wished-feature">
+        <h2>Wished Feature</h2>
+        <p>As developer i need to step forward to improve my self. to reach that here the list need to learn and implemented on this app</p>
+        <ul>
+          <li>Chacing</li>
+          <li>Message Broker</li>
+        </ul>
+      </section>
+    </main>
+</body>
+</html>

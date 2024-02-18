@@ -13,6 +13,7 @@ const userRoutes = require('./routes/userRoute')
 const productsRoutes = require('./routes/productsRoute')
 const productListRoutes = require('./routes/productListRoute')
 const blogRoutes = require('./routes/blogRoute')
+const mainPages = require('./controllers/mainPages')
 
 const errorHandler = require('./middleware/error')
 
@@ -23,6 +24,11 @@ const corsOption = {
   credentials: true,
   optionsSuccessStatus: 204,
 }
+
+//views
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
@@ -35,9 +41,7 @@ app.use('/product', productsRoutes)
 app.use('/user', userRoutes)
 app.use('/productList', productListRoutes)
 app.use('/blog', blogRoutes)
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+app.get('/', mainPages)
 
 app.use(errorHandler)
 
