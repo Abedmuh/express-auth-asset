@@ -1,0 +1,444 @@
+openapi: 3.0.3
+info:
+ title: express-auth-asset-template
+ description:
+  "RestfullAPI for express using mongodb template, you can change product\
+  \ name for basic templating"
+ version: 1.0.0
+servers:
+ - url: http://localhost:3000/
+paths:
+ /user/register:
+  post:
+   tags:
+    - User API
+   summary: Register new user
+   description: Register new user
+   requestBody:
+    content:
+     application/json:
+      schema:
+       $ref: "#/components/schemas/User"
+   responses:
+    "200":
+     description: Success register new user
+     content:
+      application/json:
+       schema:
+        $ref: "#/components/schemas/inline_response_200"
+    default:
+     description: Error responses code other than 200
+     content:
+      application/json:
+       schema:
+        $ref: "#/components/schemas/inline_response_default"
+ /user/login:
+  post:
+   tags:
+    - User API
+   summary: Login user
+   description: Login user
+   requestBody:
+    content:
+     application/json:
+      schema:
+       $ref: "#/components/schemas/Login"
+   responses:
+    "200":
+     description: Success login user
+     content:
+      application/json:
+       schema:
+        $ref: "#/components/schemas/inline_response_200"
+    default:
+     description: Error responses code other than 200
+     content:
+      application/json:
+       schema:
+        $ref: "#/components/schemas/inline_response_default"
+ /user/logout:
+  post:
+   tags:
+    - User API
+   summary: Logout user
+   description: Logout user
+   responses:
+    "200":
+     description: Success logout user
+     content:
+      application/json:
+       schema:
+        $ref: "#/components/schemas/inline_response_200_1"
+    default:
+     description: Error responses code other than 200
+     content:
+      application/json:
+       schema:
+        $ref: "#/components/schemas/inline_response_default"
+ /product:
+  get:
+   tags:
+    - Product API
+   summary: Get all product
+   description: Get all product
+   responses:
+    "200":
+     description: Success get all product
+     content:
+      application/json:
+       schema:
+        $ref: "#/components/schemas/inline_response_200_2"
+    default:
+     description: Error responses code other than 200
+     content:
+      application/json:
+       schema:
+        $ref: "#/components/schemas/inline_response_default"
+  post:
+   tags:
+    - Product API
+   summary: Create new product
+   description: Create new product
+   requestBody:
+    content:
+     application/json:
+      schema:
+       $ref: "#/components/schemas/Product"
+   responses:
+    "200":
+     description: Success create new product
+     content:
+      application/json:
+       schema:
+        $ref: "#/components/schemas/inline_response_200_3"
+    default:
+     description: Error responses code other than 200
+     content:
+      application/json:
+       schema:
+        $ref: "#/components/schemas/inline_response_default"
+   security:
+    - authUser: []
+ /product/:id:
+  get:
+   tags:
+    - Product API
+   summary: Get product by Id
+   description: Get product by Id
+   parameters:
+    - name: id
+      in: path
+      description: Product Id
+      required: true
+      style: simple
+      explode: false
+      schema:
+       type: number
+   responses:
+    "200":
+     description: Success get product
+     content:
+      application/json:
+       schema:
+        $ref: "#/components/schemas/inline_response_200_3"
+    default:
+     description: Error responses code other than 200
+     content:
+      application/json:
+       schema:
+        $ref: "#/components/schemas/inline_response_default"
+  put:
+   tags:
+    - Product API
+   summary: Update product by Id
+   description: Update product by Id
+   parameters:
+    - name: id
+      in: path
+      description: Product Id
+      required: true
+      style: simple
+      explode: false
+      schema:
+       type: number
+   requestBody:
+    content:
+     application/json:
+      schema:
+       $ref: "#/components/schemas/Product"
+   responses:
+    "200":
+     description: Success update product
+     content:
+      application/json:
+       schema:
+        $ref: "#/components/schemas/inline_response_200_3"
+    default:
+     description: Error responses code other than 200
+     content:
+      application/json:
+       schema:
+        $ref: "#/components/schemas/inline_response_default"
+   security:
+    - authUser: []
+  delete:
+   tags:
+    - Product API
+   summary: Delete product by Id
+   description: Delete product by Id
+   parameters:
+    - name: id
+      in: path
+      description: Product Id
+      required: true
+      style: simple
+      explode: false
+      schema:
+       type: number
+   responses:
+    "200":
+     description: Success delete product
+     content:
+      application/json:
+       schema:
+        $ref: "#/components/schemas/inline_response_default"
+    default:
+     description: Error responses code other than 200
+     content:
+      application/json:
+       schema:
+        $ref: "#/components/schemas/inline_response_default"
+   security:
+    - authUser: []
+ /productList:
+  get:
+   tags:
+    - ProductList API
+   summary: Get all product List for current user
+   description: Get all product
+   responses:
+    "200":
+     description: Success get all product
+     content:
+      application/json:
+       schema:
+        $ref: "#/components/schemas/inline_response_200_2"
+    default:
+     description: Error responses code other than 200
+     content:
+      application/json:
+       schema:
+        $ref: "#/components/schemas/inline_response_default"
+   security:
+    - authUser: []
+  post:
+   tags:
+    - ProductList API
+   summary: Create new product
+   description: Create new product
+   requestBody:
+    content:
+     application/json:
+      schema:
+       $ref: "#/components/schemas/Product"
+   responses:
+    "200":
+     description: Success create new product
+     content:
+      application/json:
+       schema:
+        $ref: "#/components/schemas/inline_response_200_3"
+    default:
+     description: Error responses code other than 200
+     content:
+      application/json:
+       schema:
+        $ref: "#/components/schemas/inline_response_default"
+   security:
+    - authUser: []
+ /productList/:id:
+  delete:
+   tags:
+    - ProductList API
+   summary: Delete product list by Id for current user
+   description: Delete product by Id
+   parameters:
+    - name: id
+      in: path
+      description: Product Id
+      required: true
+      style: simple
+      explode: false
+      schema:
+       type: number
+   responses:
+    "200":
+     description: Success delete product
+     content:
+      application/json:
+       schema:
+        $ref: "#/components/schemas/inline_response_default"
+    default:
+     description: Error responses code other than 200
+     content:
+      application/json:
+       schema:
+        $ref: "#/components/schemas/inline_response_default"
+   security:
+    - authUser: []
+components:
+ schemas:
+  Product:
+   type: object
+   properties:
+    id:
+     type: number
+    name:
+     type: string
+    price:
+     type: number
+    status:
+     type: boolean
+    image:
+     type: string
+  User:
+   type: object
+   properties:
+    id:
+     type: number
+    usernames:
+     type: string
+    name:
+     type: string
+    email:
+     type: string
+    password:
+     type: string
+  Login:
+   type: object
+   properties:
+    username:
+     type: string
+    password:
+     type: string
+  ProductList:
+   type: object
+   properties:
+    id:
+     type: string
+    user_id:
+     $ref: "#/components/schemas/User"
+    product_id:
+     $ref: "#/components/schemas/Product"
+  Error:
+   type: object
+   properties:
+    code:
+     type: number
+    status:
+     type: string
+    message:
+     type: string
+  inline_response_200:
+   type: object
+   properties:
+    code:
+     type: number
+    status:
+     type: string
+    data:
+     $ref: "#/components/schemas/User"
+  inline_response_default:
+   type: object
+   properties:
+    code:
+     type: number
+    status:
+     type: string
+    message:
+     type: string
+  inline_response_200_1:
+   type: object
+   properties:
+    code:
+     type: number
+    status:
+     type: string
+  inline_response_200_2:
+   type: object
+   properties:
+    code:
+     type: number
+    status:
+     type: string
+    data:
+     type: array
+     items:
+      $ref: "#/components/schemas/Product"
+  inline_response_200_3:
+   type: object
+   properties:
+    code:
+     type: number
+    status:
+     type: string
+    data:
+     $ref: "#/components/schemas/Product"
+ responses:
+  Unauthorized:
+   description: Unauthorized
+   content:
+    application/json:
+     schema:
+      type: object
+      properties:
+       code:
+        type: number
+       status:
+        type: string
+       message:
+        type: string
+  BadRequest:
+   description: Bad Request
+   content:
+    application/json:
+     schema:
+      type: object
+      properties:
+       code:
+        type: number
+       status:
+        type: string
+       message:
+        type: string
+  NotFoundException:
+   description: Not Found
+   content:
+    application/json:
+     schema:
+      type: object
+      properties:
+       code:
+        type: number
+       status:
+        type: string
+       message:
+        type: string
+  InternalServerError:
+   description: Internal Server Error
+   content:
+    application/json:
+     schema:
+      type: object
+      properties:
+       code:
+        type: number
+       status:
+        type: string
+       message:
+        type: string
+ securitySchemes:
+  authUser:
+   type: http
+   scheme: bearer
+   bearerFormat: JWT
