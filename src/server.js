@@ -19,7 +19,7 @@ const errorHandler = require('./middleware/error')
 
 const uploadDir = path.join(__dirname, 'uploads');
 const corsOption = {
-  origin: 'http://localhost:5173',
+  origin: 'http://localhost',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   optionsSuccessStatus: 204,
