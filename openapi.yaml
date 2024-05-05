@@ -1,9 +1,13 @@
 openapi: 3.0.3
 info:
-  title: express-auth-asset-template
-  description:
-    "RestfullAPI for express using mongodb template, you can change product\
-    \ name for basic templating"
+  title: express-auth-asset
+  description: |-
+    The app just shop website can buy and sell, u have seller and buyer. 
+    as admin u can do any and has responsibility create dev blogs
+    as super user u can see dashboard and get analitycs what was trending on this app (this one will be hard)
+    as seller u can sell some product and get all access same as user.
+    as buyer u only can buy and add whishlist
+  termsOfService: http://swagger.io/terms/
   version: 1.0.0
 servers:
   - url: http://localhost:3000/

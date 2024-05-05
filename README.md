@@ -13,11 +13,11 @@ Express auth asset was made for complete path of backend developer. here the met
 - +Message Broker
 - +Containerization
 
-*+ was microservice add ons
+\*+ was microservice add ons
 
 # what this app doing?
 
-SO the app just shop website can buy and sell, u have seller and buyer.
+So the app just shop website can buy and sell, u have seller and buyer.
 as admin u can do any and has responsibility create dev blogs
 as super user u can see dashboard and get analitycs what was trending on this app (this one will be hard)
 as seller u can sell some product and get all access same as user.
@@ -47,10 +47,10 @@ as buyer u only can buy and add whishlist
 # list of unsolved problem
 
 - MultiRole Feature
-as its name, in this project implanning every user has tier role. some user can access
-feature and some user cant access feature
+  as its name, in this project implanning every user has tier role. some user can access
+  feature and some user cant access feature
 - Data seeder
-create dummy data
+  create dummy data
 
 ### list of unsolved feature
 
@@ -65,4 +65,4 @@ create dummy data
 - seedeing dastabase
 - analitycs
 - the data i use for add product list should i read the body or params or cookie
-rn im using cookie and params
+  rn im using cookie and params
