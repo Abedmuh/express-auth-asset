@@ -1,4 +1,3 @@
-const Role = require('../models/roles')
 const User = require('../models/user')
 const Auth = require('../models/auth')
 const InvariantError = require('../exceptions/InvariantError')
@@ -37,40 +36,7 @@ const verifyUser = async ({ username, password }) => {
   return user;
 }
 
-const deleteTokenUser = async (Rtoken) => {
-
-  const token = await Auth.findByIdAndDelete(Rtoken)
-  if (!token) {
-    throw new NotFoundError('Token not found');
-  }
-  return token
-}
-
-const addRole = async (name) => {
-  const role = new Role({ name });
-
-  const savedRole = await role.save();
-
-  if (!savedRole) {
-    throw new InvariantError('Roles fail to be saved');
-  }
-  return savedRole;
-}
-
-const deleteRole = async (id) => {
-
-  const role = await Role.findByIdAndDelete(id)
-  if (!role) {
-    throw new NotFoundError('Role not found');
-  }
-
-  return role;
-}
-
 module.exports = {
   addUser,
   verifyUser,
-  deleteTokenUser,
-  addRole,
-  deleteRole
 };

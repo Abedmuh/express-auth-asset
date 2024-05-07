@@ -1,6 +1,6 @@
 const userService = require('../services/user')
 const authService = require('../utils/token')
-const { validationResultRole, validationResultUser } = require('../validation/user/validate');
+const { validationResultUser } = require('../validation/user/validate');
 
 const registerUser = async (req, res, next) => {
   try {
@@ -48,53 +48,7 @@ const loginUser = async (req, res, next) => {
   }
 }
 
-const logoutUser = async (req, res, next) => {
-  try {
-    const Rtoken = req.heeaders['refreshToken'];
-
-    await userService.deleteTokenUser(Rtoken)
-
-    res.status(200).json({ message: 'Logout successful' });
-  } catch (error) {
-    next(error)
-  }
-}
-
-const postRole = async (req, res, next) => {
-  try {
-    await validationResultRole(req.body)
-
-    const { name } = req.body
-
-    const roleData = await userService.addRole(name);
-
-    res.status(201).json({
-      message: 'Role berhasil ditambahkan',
-      roleData
-    })
-  } catch (error) {
-    next(error)
-  }
-}
-
-const deleteRole = async (req, res, next) => {
-  try {
-    const { id } = req.params
-
-    await userService.deleteRole(id)
-
-    res.status(201).json({
-      message: 'Role berhasil dihapus'
-    })
-  } catch (error) {
-    next(error)
-  }
-}
-
 module.exports = {
   registerUser,
   loginUser,
-  logoutUser,
-  postRole,
-  deleteRole
 }

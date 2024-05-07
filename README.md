@@ -56,6 +56,7 @@ as buyer u only can buy and add whishlist
 
 - Caching
 - Message Broker
+- for somehow if u seed admin in separate app it will different decode password by bcrypt
 
 ### problem i face rn
 

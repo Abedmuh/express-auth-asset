@@ -59,7 +59,7 @@ const authAdmin = async (req, res, next) => {
     });
 
   } catch (error) {
-    console.log("erorr")
+    console.log(error.message)
     res.status(500).json(error)
   }
 }
