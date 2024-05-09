@@ -17,6 +17,7 @@ const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoute')
 const productsRoutes = require('./routes/productsRoute')
 const productListRoutes = require('./routes/productListRoute')
+const paymentRoutes = require('./routes/paymentRoute')
 
 const errorHandler = require('./middleware/error')
 
@@ -56,6 +57,7 @@ app.use('/uploads', express.static(uploadDir));
 app.use('/product', productsRoutes)
 app.use('/user', userRoutes)
 app.use('/productList', productListRoutes)
+app.use('/payment', paymentRoutes)
 app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use(errorHandler)
