@@ -1,16 +1,16 @@
-version: '3'
+version: "3.8"
+
+volumes:
+  api:
+
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    container_name: restmongoapp
+    restart: always
+    build: .
     ports:
       - "3000:3000"
-    environment:
-      MONGO_URI: "mongodb://localhost:27017/shop"
-    depends_on:
-      - mongo
-  mongo:
-    image: mongo:latest
-    ports:
-      - "27017:27017"
+    env_file:
+      - .env
+    volumes:
+      - api:/usr/src/app/

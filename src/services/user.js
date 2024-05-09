@@ -1,8 +1,6 @@
 const User = require('../models/user')
-const Auth = require('../models/auth')
 const InvariantError = require('../exceptions/InvariantError')
 const AuthenticationError = require('../exceptions/AuthenticationError')
-const NotFoundError = require('../exceptions/NotFoundError')
 const bcrypt = require('bcrypt')
 
 const addUser = async ({ name, username, email, role, password }) => {
