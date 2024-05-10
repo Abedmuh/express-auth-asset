@@ -2,12 +2,12 @@ const paymentService = require('../services/payment')
 
 const addPayment = async (req, res, next) => {
   try {
-    const { gross_amount, first_name, last_name, email, phone } = req.body
+    const { items, owner } = req.body
 
-    const uri = await paymentService.addPaymentLink(gross_amount, first_name, last_name, email, phone)
+    const uri = await paymentService.addPaymentLink(items, owner)
     res.status(200).json({
       message: 'Success',
-      uri
+      payments: uri
     })
   } catch (err) {
     next(err)

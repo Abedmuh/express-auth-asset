@@ -12,6 +12,7 @@ const yaml = require('js-yaml');
 const fs = require('fs');
 const swaggerDocument = yaml.load(fs.readFileSync('./openapi.yaml', 'utf8')); // Replace './swagger.yaml' with the path to your Swagger documentation YAML file
 const mongoose = require('mongoose');
+const midtransService = require('./utils/midtrans')
 
 // route
 const userRoutes = require('./routes/userRoute')
@@ -38,7 +39,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json())
 app.use(cors(corsOption))
 app.use(cookieParser());
+
+// connect other API
 connectToDatabase();
+midtransService.getSnapInstance();
 
 let isReconnecting = false;
 mongoose.connection.on('error', (error) => {

@@ -33,8 +33,8 @@ const loginUser = async (req, res, next) => {
     // await authData.save();
 
     // in this case the front end will keep the refresh token
-    res.cookie('jwtAToken', accessToken, { httpOnly: true, secure: true });
-    res.cookie('jwtRToken', refreshToken, { httpOnly: true, secure: true });
+    // res.cookie('jwtAToken', accessToken, { httpOnly: true, secure: true });
+    // res.cookie('jwtRToken', refreshToken, { httpOnly: true, secure: true });
 
     res.status(201).json({
       message: 'berhasil Login',

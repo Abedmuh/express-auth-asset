@@ -1,33 +1,36 @@
-const midtransClient = require('midtrans-client');
 const InvariantError = require('../exceptions/InvariantError');
 const { nanoid } = require('nanoid')
+const { getSnapInstance } = require('../utils/midtrans');
 
-const addPaymentLink = async (gross_amount, first_name, last_name, email, phone) => {
+
+const addPaymentLink = async (items, owner) => {
   try {
-    let snap = new midtransClient.Snap({
-      isProduction: false,
-      serverKey: process.env.MIDTRANS_SERVER_KEY,
-      clientKey: process.env.MIDTRANS_CLIENT_KEY
-    });
+    const snap = getSnapInstance();
+
+    let gross_amount = 0
+    for (let i = 0; i < items.length; i++) {
+      gross_amount += items[i].price;
+    }
 
     let parameter = {
       "transaction_details": {
         "order_id": `payment-${nanoid(8)}`,
-        "gross_amount": Number(gross_amount)
+        "gross_amount": gross_amount
       },
+      "items_details": items,
       "credit_card": {
         "secure": true
       },
       "customer_details": {
-        "first_name": first_name,
-        "last_name": last_name,
-        "email": email,
-        "phone": String(phone)
+        "first_name": owner.name,
+        "email": owner.email,
+        "phone": String(owner.phone)
       }
     };
     let uri = await snap.createTransaction(parameter)
+    parameter.payments = uri
 
-    return uri
+    return parameter
   } catch (err) {
     throw new InvariantError(err)
   }
