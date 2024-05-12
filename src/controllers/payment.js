@@ -5,6 +5,7 @@ const addPayment = async (req, res, next) => {
     const { items, owner } = req.body
 
     const uri = await paymentService.addPaymentLink(items, owner)
+    paymentService.addLogTransaction(detail)
     res.status(200).json({
       message: 'Success',
       payments: uri

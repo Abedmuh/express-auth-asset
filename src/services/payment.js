@@ -1,6 +1,7 @@
 const InvariantError = require('../exceptions/InvariantError');
 const { nanoid } = require('nanoid')
 const { getSnapInstance } = require('../utils/midtrans');
+const Logging = require('../models/logging')
 
 
 const addPaymentLink = async (items, owner) => {
@@ -36,6 +37,27 @@ const addPaymentLink = async (items, owner) => {
   }
 }
 
+const addLogTransaction = async (detail) => {
+  try {
+    const log = new Logging({
+      itemdetails: detail.itemdetails,
+      owner: detail.owner,
+      amount: detail.amount,
+      createdAt: detail.createdAt,
+      status: detail.status
+    })
+
+    const savedLog = await log.save()
+
+    if (!savedLog) {
+      throw new InvariantError('Logging fail to be saved')
+    }
+  } catch (err) {
+    throw new InvariantError(err)
+  }
+}
+
 module.exports = {
-  addPaymentLink
+  addPaymentLink,
+  addLogTransaction
 }
