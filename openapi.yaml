@@ -24,32 +24,6 @@ info:
 servers:
   - url: http://localhost:3000/
 paths:
-  /user/role:
-    post:
-      tags:
-        - User API
-      summary: Create New Role
-      description: Register new role
-      requestBody:
-        required: true
-        description: Add new role
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Role"
-      responses:
-        "200":
-          description: Success register new role
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Role"
-        default:
-          description: Error responses code other than 200
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Default"
   /user/register:
     post:
       tags:
@@ -118,29 +92,11 @@ paths:
               schema:
                 $ref: "#/components/schemas/Default"
   /product:
-    get:
-      tags:
-        - Product API
-      summary: Get all product
-      description: Get all product
-      responses:
-        "200":
-          description: Success get all product
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ProductListResponse"
-        default:
-          description: Error responses code other than 200
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Default"
     post:
       tags:
         - Product API
       summary: Create new product
-      description: Create new product
+      description: Register a new product by user that has login
       requestBody:
         content:
           application/json:
@@ -161,12 +117,30 @@ paths:
                 $ref: "#/components/schemas/Default"
       security:
         - authUser: []
+    get:
+      tags:
+        - Product API
+      summary: Get all product
+      description: Get all product
+      responses:
+        "200":
+          description: Get all Product that registered in app return in array of object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductListResponse"
+        default:
+          description: Error responses code other than 200
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Default"
   /product/:id:
     get:
       tags:
         - Product API
       summary: Get product by Id
-      description: Get product by Id
+      description: Return one product detailed
       parameters:
         - name: id
           in: path
@@ -193,7 +167,7 @@ paths:
       tags:
         - Product API
       summary: Update product by Id
-      description: Update product by Id
+      description: Update product by Id, need authorize the user
       parameters:
         - name: id
           in: path
@@ -227,7 +201,7 @@ paths:
       tags:
         - Product API
       summary: Delete product by Id
-      description: Delete product by Id
+      description: Delete product by Id, need authorized access
       parameters:
         - name: id
           in: path
@@ -273,23 +247,30 @@ paths:
                 $ref: "#/components/schemas/Default"
       security:
         - authUser: []
+    delete:
+      tags:
+        - ProductList API
+      summary: Delete all product List for current user
+      description: Get all product
+      responses:
+        "200":
+          description: Success get all product
+      security:
+        - authUser: []
+  /productList/:id:
     post:
       tags:
         - ProductList API
-      summary: Create new product
-      description: Create new product
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Product"
+      summary: Add Product to ProductList Owner
+      description: "Add a role"
+      parameters: []
       responses:
         "200":
-          description: Success create new product
+          description: Adding Role
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ProductResponse"
+                $ref: "#/components/schemas/ProductList"
         default:
           description: Error responses code other than 200
           content:
@@ -298,7 +279,6 @@ paths:
                 $ref: "#/components/schemas/Default"
       security:
         - authUser: []
-  /productList/:id:
     delete:
       tags:
         - ProductList API
@@ -316,55 +296,56 @@ paths:
       responses:
         "200":
           description: Success delete product
+      security:
+        - authUser: []
+  /payments:
+    post:
+      tags:
+        - Payments
+      summary: Add payment invoice
+      description: add payment for productlist
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProductList"
+      responses:
+        "200":
+          description: Success payment
+      security:
+        - authUser: []
+    get:
+      tags:
+        - Payments
+      summary: Get Log all Payments
+      description: Get status Payment user with Id
+      responses:
+        "200":
+          description: Success get status payment
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Default"
-        default:
-          description: Error responses code other than 200
+                $ref: "#/components/schemas/LogPayment"
+      security:
+        - authUser: []
+  /payments/:id:
+    get:
+      tags:
+        - Payments
+      summary: Get Status Payments
+      description: Get status Payment user with Id
+      responses:
+        "200":
+          description: Success get status payment
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Default"
       security:
         - authUser: []
-
-    summary: "adding role"
-    description: "adding role"
-
-    post:
-      tags:
-        - "User API"
-      description: "Add a role"
-      parameters: []
-      responses:
-        "200":
-          description: Adding Role
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Role"
-        default:
-          description: Error responses code other than 200
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Default"
 components:
   schemas:
-    Role:
-      required:
-        - name
-      type: object
-      properties:
-        name:
-          type: string
-          example: "admin"
-          minLength: 1
-          maxLength: 100
-      xml:
-        attribute: true
-        wrapped: true
     Product:
       type: object
       properties:
@@ -399,14 +380,32 @@ components:
         password:
           type: string
     ProductList:
+      description: Product list work like chart, user create chart the all the cart woll go payed
       type: object
       properties:
         id:
           type: string
-        user_id:
+        owner:
           $ref: "#/components/schemas/User"
-        product_id:
-          $ref: "#/components/schemas/Product"
+        productList:
+          type: array
+          items:
+            $ref: "#/components/schemas/Product"
+    LogPayment:
+      type: object
+      properties:
+        id:
+          type: string
+        trasactionId:
+          type: string
+        itemDetails:
+          $ref: "#/components/schemas/ProductList"
+        owner:
+          $ref: "#/components/schemas/User"
+        amount:
+          type: integer
+        createdAt:
+          type: string
     Default:
       type: object
       properties:
@@ -426,7 +425,7 @@ components:
         data:
           type: array
           items:
-            $ref: "#/components/schemas/Product"
+            $ref: "#/components/schemas/ProductList"
     ProductResponse:
       type: object
       properties:

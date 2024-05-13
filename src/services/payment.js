@@ -24,8 +24,7 @@ const addPaymentLink = async (items, owner) => {
       },
       "customer_details": {
         "first_name": owner.name,
-        "email": owner.email,
-        "phone": String(owner.phone)
+        "email": owner.email
       }
     };
     let uri = await snap.createTransaction(parameter)

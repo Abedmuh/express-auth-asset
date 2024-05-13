@@ -1,6 +1,11 @@
 const mongoose = require('mongoose')
 
 const logSchema = new mongoose.Schema({
+  transactionId: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   itemdetail: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'productList'
@@ -18,13 +23,8 @@ const logSchema = new mongoose.Schema({
     required: true,
     default: Date.now,
   },
-  payment: {
-    type: String,
-    required: true,
-    default: "inProggres",
-  }
 })
 
-const Logging = mongoose.model('log', logSchema);
+const LogPayment = mongoose.model('logPayment', logSchema);
 
-module.exports = Logging;
+module.exports = LogPayment;
